@@ -1,0 +1,94 @@
+.custom-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+.gradient-text {
+    background: linear-gradient(to right, #fff, #a1c4fd);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.search-group {
+    max-width: 500px;
+}
+
+.search-group .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.search-group .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-group .btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.nav-icons .nav-link {
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.nav-icons .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.icon-nav {
+    font-size: 1.2rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover .icon-nav {
+    color: #a1c4fd;
+}
+
+.nav-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: transparent;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.nav-link.active .nav-indicator {
+    background: #a1c4fd;
+    width: 20px;
+}
+
+.dropdown-menu {
+    background: rgba(30, 60, 114, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+    color: white;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+    background: rgba(161, 196, 253, 0.2);
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}

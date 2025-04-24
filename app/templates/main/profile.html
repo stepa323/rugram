@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Аватар -->
+            <img src="{{ url_for('static', filename='uploads/profile_images/' + user.profile_image) }}"
+                 class="rounded-circle img-thumbnail" width="200">
+
+            <h2>{{ user.username }}</h2>
+            <p class="text-muted">{{ user.email }}</p>
+            <p>{{ user.bio }}</p>
+
+            {% if current_user == user %}
+            <a href="{{ url_for('main.edit_profile') }}" class="btn btn-primary">Редактировать</a>
+            {% endif %}
+        </div>
+
+        <div class="col-md-8">
+            <!-- Посты пользователя -->
+            <h4>Посты</h4>
+            {% for post in user.posts %}
+            {% if not post.is_deleted %}
+            <div class="card mb-4 shadow-sm post-card">
+                <!-- Шапка поста -->
+                <div class="card-header bg-transparent d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ url_for('static', filename='uploads/profile_images/' + post.author.profile_image) if post.author.profile_image else url_for('static', filename='default-profile.png') }}"
+                             class="rounded-circle me-2"
+                             width="32"
+                             height="32"
+                             alt="{{ post.author.username }}">
+                        <div>
+                            <strong>{{ post.author.username }}</strong>
+                            <small class="text-muted d-block">{{ post.created_date|time_ago }}</small>
+                        </div>
+                    </div>
+
+                    {% if current_user.is_authenticated and (current_user == post.author) %}
+                    <div class="d-inline-flex align-items-center gap-1">  <!-- Обертка для выравнивания -->
+                        <a href="{{ url_for('posts.edit_post', post_id=post.id) }}" class="btn btn-sm p-0"
+                           title="Редактировать">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <button class="btn btn-sm p-0 text-danger" onclick="deletePost({{ post.id }})" title="Удалить">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Кликабельное изображение поста -->
+                <a href="{{ url_for('posts.post', post_id=post.id) }}">
+                    {% if post.image %}
+                    <img src="{{ url_for('static', filename='uploads/posts/' + post.image) }}"
+                         class="card-img-top post-image"
+                         loading="lazy">
+                    {% endif %}
+                </a>
+
+                <!-- Тело карточки -->
+                <div class="card-body">
+                    <a href="{{ url_for('posts.post', post_id=post.id) }}" class="text-decoration-none text-dark">
+                        <p class="card-text text-muted">{{ post.text|truncate(200) }}</p>
+                    </a>
+
+                    <!-- Действия с постом -->
+                    <div class="post-actions border-top pt-2">
+                        <button class="btn btn-sm like-btn {% if post.is_liked_by(current_user) %}text-danger{% else %}text-muted{% endif %}"
+                                data-post-id="{{ post.id }}"
+                                data-liked="{{ 'true' if post.is_liked_by(current_user) else 'false' }}">
+                            <i class="bi {% if post.is_liked_by(current_user) %}bi-heart-fill{% else %}bi-heart{% endif %} fs-5"></i>
+                            <span class="like-count ms-1">{{ post.likes_count }}</span>
+                        </button>
+
+                        <a href="{{ url_for('posts.post', post_id=post.id) }}#comments"
+                           class="btn btn-sm text-muted ms-3">
+                            <i class="bi bi-chat-left-text fs-5"></i>
+                            <span class="ms-1">{{ post.comments_count }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="alert alert-info text-center py-4">
+                <i class="bi bi-info-circle fs-4"></i>
+                <p class="mt-2 mb-0">Постов пока нет.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
